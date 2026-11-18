@@ -230,5 +230,14 @@ setInterval(()=>{checkPeriods();updateTimer();},1000);
 
 render();if(!state.logs.length)log('Jogador detectado. Sistema Jin-Woo iniciado. Complete missões para evoluir.');
 </script>
+ <script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./service-worker.js")
+      .then(() => console.log("JIN-WOO: sistema offline ativado"))
+      .catch(error => console.error("Erro no Service Worker:", error));
+  });
+}
+ </script>
 </body>
 </html>
