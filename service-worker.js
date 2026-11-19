@@ -1,4 +1,5 @@
-const CACHE_NAME = "jinwoo-v1";
+
+const CACHE_NAME = "jinwoo-v2";
 
 const FILES_TO_CACHE = [
   "./",
@@ -12,8 +13,13 @@ self.addEventListener("install", event => {
       return cache.addAll(FILES_TO_CACHE);
     })
   );
+});
 
-  self.skipWaiting();
+// Aguarda o jogador tocar em "Atualizar agora".
+self.addEventListener("message", event => {
+  if (event.data && event.data.type === "SKIP_WAITING") {
+    self.skipWaiting();
+  }
 });
 
 self.addEventListener("activate", event => {
