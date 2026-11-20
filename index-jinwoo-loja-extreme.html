@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+ <link rel="manifest" href="./manifest.json">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#050b18">
+<title>SISTEMA JIN-WOO</title>
+<style>
+:root{--bg:#040916;--panel:#0a1930;--panel2:#102644;--blue:#43c7ff;--cyan:#a8efff;--muted:#8da9c8;--line:#2a9fd866;--green:#7cf2b0;--gold:#ffd779;--red:#ff7189}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 50% -15%,#174879 0%,#09182e 38%,#030711 78%);color:#edf8ff;font-family:system-ui,-apple-system,Segoe UI,sans-serif;min-height:100vh}
+button,input{font:inherit}.app{max-width:680px;margin:auto;padding:calc(16px + env(safe-area-inset-top)) 14px calc(92px + env(safe-area-inset-bottom))}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}.eyebrow{font-size:9px;letter-spacing:3px;color:var(--cyan);font-weight:900}.online{font-size:9px;color:var(--green);letter-spacing:1px}
+.hero{text-align:center;padding:14px 8px 20px}.orb{height:76px;width:76px;border:1px solid var(--blue);border-radius:50%;display:grid;place-items:center;margin:0 auto 12px;font-size:32px;color:var(--cyan);background:radial-gradient(circle,#258bc655,transparent 68%);box-shadow:0 0 26px #35bfff55,inset 0 0 20px #35bfff33}.hero h1{font-size:20px;letter-spacing:3px;margin:0}.hero p{font-size:10px;color:var(--muted);letter-spacing:1.5px;margin:6px 0}
+.page{display:none}.page.active{display:block}.panel{background:linear-gradient(145deg,#102744ed,#071326f5);border:1px solid var(--line);border-radius:14px;padding:15px;margin:11px 0;box-shadow:0 8px 25px #0005,inset 0 0 20px #2ca9e00a}
+.section{font-size:10px;letter-spacing:2px;color:var(--cyan);font-weight:900;margin-bottom:12px}.muted{color:var(--muted);font-size:11px;line-height:1.5}.row{display:flex;align-items:center;gap:8px}.between{display:flex;justify-content:space-between;align-items:center;gap:8px}.level{font-size:29px;font-weight:950}.rank{font-size:9px;color:var(--blue);font-weight:900;letter-spacing:1px}.bar{height:8px;border-radius:9px;background:#1a3554;overflow:hidden}.fill{height:100%;background:linear-gradient(90deg,#218de6,#a0efff);box-shadow:0 0 12px #39bfff;transition:width .25s}.xpmeta{display:flex;justify-content:space-between;color:var(--muted);font-size:10px;margin:12px 0 6px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:13px}.stat{background:#102b4a;border-radius:9px;padding:9px}.stat small{display:block;color:var(--muted);font-size:9px;letter-spacing:1px}.stat b{font-size:13px}
+.btn{border:0;border-radius:9px;padding:11px 13px;background:linear-gradient(90deg,#269ce8,#9beaff);color:#041321;font-weight:900;font-size:11px;letter-spacing:.7px}.btn:disabled{opacity:.35}.btn.secondary{background:#173657;color:#c8efff;border:1px solid var(--line)}.btn.danger{background:#482235;color:#ffdbe3;border:1px solid #a94a68}.btn.small{padding:7px 9px;font-size:9px}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}.item{padding:11px;background:#0b203b;border:1px solid #2b83b655;border-radius:10px}.item h3{font-size:12px;margin:0 0 5px}.item p{font-size:10px;color:var(--muted);margin:0 0 9px;line-height:1.4}.tag{font-size:8px;color:var(--cyan);border:1px solid #3bbcff66;border-radius:20px;padding:3px 7px;display:inline-block;margin-bottom:7px}
+.attr{display:grid;grid-template-columns:1fr auto auto;gap:8px;align-items:center;padding:10px 0;border-bottom:1px solid #ffffff12;font-size:11px}.attr:last-child{border:0}.attr b{color:var(--cyan);min-width:20px;text-align:center}.task{display:flex;gap:9px;align-items:flex-start;padding:10px 0;border-bottom:1px solid #ffffff12}.task:last-child{border:0}.task input{accent-color:#45c7ff;width:17px;height:17px;margin:1px 0 0}.task label{font-size:12px;flex:1}.task small{display:block;color:var(--muted);font-size:9px;margin-top:3px}.task.done label{text-decoration:line-through;color:#83a0ba}
+.notice{padding:10px 11px;background:#092442;border-left:2px solid var(--blue);color:#cceeff;font-size:11px;line-height:1.5;border-radius:4px;margin-top:10px}.empty{text-align:center;padding:20px;color:var(--muted);font-size:11px}.menu-trigger{position:fixed;z-index:41;left:16px;bottom:calc(16px + env(safe-area-inset-bottom));width:54px;height:54px;border:1px solid #43c7ff88;border-radius:15px;background:linear-gradient(145deg,#12385bF2,#07172cf5);color:var(--cyan);font-size:27px;display:grid;place-items:center;box-shadow:0 0 22px #249fe944,inset 0 0 16px #43c7ff12;backdrop-filter:blur(14px);cursor:pointer;touch-action:manipulation}.menu-trigger:active{transform:scale(.96)}.drawer-backdrop{position:fixed;inset:0;z-index:50;background:#020711b8;backdrop-filter:blur(3px);opacity:0;visibility:hidden;transition:opacity .22s,visibility .22s}.drawer-backdrop.open{opacity:1;visibility:visible}.drawer{position:absolute;top:0;bottom:0;left:0;width:min( min(82vw,330px),330px);padding:calc(17px + env(safe-area-inset-top)) 14px calc(18px + env(safe-area-inset-bottom));background:linear-gradient(160deg,#102b49 0%,#07172b 48%,#040b18 100%);border-right:1px solid #43c7ff66;box-shadow:12px 0 42px #0009;transform:translateX(-105%);transition:transform .25s ease;display:flex;flex-direction:column;overflow-y:auto;overscroll-behavior:contain}.drawer-backdrop.open .drawer{transform:translateX(0)}.drawer-head{display:flex;align-items:center;justify-content:space-between;padding:3px 3px 17px;border-bottom:1px solid #43c7ff35;margin-bottom:12px}.drawer-brand{font-size:11px;letter-spacing:2px;font-weight:900;color:var(--cyan)}.drawer-subtitle{font-size:8px;letter-spacing:1.5px;color:var(--muted);margin-top:5px}.drawer-close{width:38px;height:38px;border:1px solid #43c7ff55;border-radius:10px;background:#0b2340;color:var(--cyan);font-size:22px;cursor:pointer}.drawer-nav{display:grid;gap:5px}.drawer-nav button{width:100%;display:flex;align-items:center;gap:13px;text-align:left;padding:12px 13px;border:1px solid transparent;border-radius:10px;background:transparent;color:#b5cce0;font-size:12px;font-weight:750;letter-spacing:.5px;cursor:pointer;touch-action:manipulation}.drawer-nav button span{width:22px;text-align:center;font-size:18px;color:#70d8ff}.drawer-nav button.active{background:linear-gradient(90deg,#1676b944,#0d2944aa);border-color:#43c7ff55;color:#e8faff;box-shadow:inset 3px 0 0 var(--blue),0 0 16px #159ce51a}.drawer-nav button:active{background:#17466b}.drawer-foot{margin-top:auto;padding:17px 5px 2px;color:#587492;font-size:8px;letter-spacing:1.5px;text-align:center}@media(min-width:560px){.drawer{width:300px}}
+input[type=text]{width:100%;background:#07182c;border:1px solid var(--line);border-radius:8px;padding:10px;color:white;font-size:12px;margin:7px 0}.footer{text-align:center;color:#587492;font-size:8px;letter-spacing:2px;margin:20px 0 0}
+#toast{position:fixed;top:calc(12px + env(safe-area-inset-top));left:50%;transform:translate(-50%,-150%);width:min(92%,440px);z-index:30;background:#092b4b;border:1px solid var(--blue);box-shadow:0 0 25px #36bfff55;border-radius:10px;padding:12px;text-align:center;color:#dff8ff;font-size:11px;transition:transform .3s}#toast.show{transform:translate(-50%,0)}
+.logline{font-size:10px;color:#c7e7fb;padding:8px 0;border-bottom:1px solid #ffffff12}.logline time{color:var(--muted);display:block;font-size:8px;margin-bottom:3px}
+@media(min-width:560px){.app{padding-left:22px;padding-right:22px}.grid2{grid-template-columns:repeat(3,1fr)}}
+
+#updateNotice{display:none;position:fixed;z-index:60;left:50%;bottom:calc(18px + env(safe-area-inset-bottom));transform:translateX(-50%);width:min(92%,460px);padding:13px;background:linear-gradient(145deg,#12385b,#07172c);border:1px solid var(--blue);border-radius:12px;box-shadow:0 8px 30px #000b,0 0 18px #249fe944;color:#e8faff;font-size:11px}
+#updateNotice.show{display:block}
+#updateNotice .update-actions{display:flex;gap:8px;margin-top:10px}
+#updateNotice .update-actions button{flex:1}
+</style>
+</head>
+<body>
+<div id="toast">[SISTEMA] Inicializando...</div>
+<main class="app">
+ <header class="top"><div class="eyebrow">SISTEMA // INTERFACE DO JOGADOR</div><div class="online">● ONLINE</div></header>
+ <section class="hero"><div class="orb">✦</div><h1>JOGADOR, DESPERTE.</h1><p>SEU CRESCIMENTO COMEÇA AGORA.</p></section>
+
+ <section id="home" class="page active">
+  <div class="panel">
+   <div class="section">STATUS DO JOGADOR</div>
+   <div class="between"><div class="level" id="level">NÍVEL 1</div><div class="rank" id="rank">CLASSE: INICIANTE</div></div>
+   <div class="xpmeta"><span>EXPERIÊNCIA</span><b id="xpText">0 / 100 XP</b></div><div class="bar"><div class="fill" id="xpFill"></div></div>
+   <div class="stats"><div class="stat"><small>HP</small><b id="hp">100 / 100</b></div><div class="stat"><small>MP</small><b id="mp">50 / 50</b></div><div class="stat"><small>MOEDAS</small><b id="coins">0</b></div></div>
+   <div class="notice" id="levelNotice">[SISTEMA] Jogador detectado. Sua jornada começa agora.</div>
+  </div>
+  <div class="panel"><div class="section">MISSÃO DIÁRIA • HOJE</div><div id="homeDaily"></div></div>
+  <div class="panel"><div class="section">RESUMO DO JOGADOR</div><div class="grid2"><div class="item"><span class="tag">PROGRESSO</span><h3 id="sumMissions">0 missões</h3><p>Missões concluídas</p></div><div class="item"><span class="tag">PONTOS</span><h3 id="sumPoints">0 disponíveis</h3><p>Pontos de atributo</p></div><div class="item"><span class="tag">SOMBRAS</span><h3 id="sumShadows">0 recrutadas</h3><p>Aliados no exército</p></div></div></div>
+ </section>
+
+ <section id="quests" class="page">
+  <div class="panel"><div class="section">MISSÕES DIÁRIAS</div><p class="muted">Treino de calistenia em casa, usando apenas o peso do corpo. Complete tudo antes da virada do dia.</p><div class="notice" id="punishmentNotice" style="display:none"></div><div class="muted" id="questTimer" style="margin-bottom:8px"></div><div id="dailyList"></div></div>
+  <div class="panel"><div class="section">MISSÕES SEMANAIS</div><p class="muted">Desafios maiores para manter consistência ao longo da semana.</p><div id="weeklyList"></div></div>
+ </section>
+
+ <section id="attributes" class="page">
+  <div class="panel"><div class="section">ATRIBUTOS DO JOGADOR</div><div class="between"><span class="muted">Pontos disponíveis</span><b id="points" style="color:var(--cyan)">0</b></div><div class="notice">Ao subir de nível, você recebe 1 ponto. Distribua como preferir. Os atributos são um recurso de jogo, não uma avaliação médica ou física.</div><div id="attributeList"></div></div>
+  <div class="panel"><div class="section">PROGRESSÃO MONARCH</div><div id="progressionInfo"></div></div>
+  <div class="panel"><div class="section">ATRIBUTOS AVANÇADOS</div><div id="advancedStats"></div></div>
+  <div class="panel"><div class="section">TESTE DE PROMOÇÃO DE RANK</div><div id="rankTrial"></div></div>
+ </section>
+
+ <section id="inventory" class="page">
+  <div class="panel"><div class="section">INVENTÁRIO</div><p class="muted">Itens disponíveis para equipar. Equipamentos concedem bônus virtuais de atributo.</p><div id="inventoryList"></div></div>
+  <div class="panel"><div class="section">EQUIPAMENTO ATUAL</div><div id="equipmentList"></div></div>
+ </section>
+
+ <section id="skills" class="page">
+  <div class="panel"><div class="section">HABILIDADES ESPECIAIS</div><p class="muted">Desbloqueie técnicas conforme seu nível. Habilidades são conquistas e ferramentas de motivação no aplicativo.</p><div id="skillsList"></div></div>
+ </section>
+
+ <section id="shadows" class="page">
+  <div class="panel"><div class="section">EXÉRCITO DAS SOMBRAS</div><p class="muted">Recrute sombras fictícias ao atingir marcos de nível e complete sua coleção.</p><div id="shadowList"></div></div>
+ </section>
+
+ <section id="notifications" class="page">
+  <div class="panel"><div class="section">CENTRAL DE NOTIFICAÇÕES</div><p class="muted">Histórico das mensagens emitidas pelo Sistema.</p><div id="notificationList"></div></div>
+ </section>
+
+ <section id="profile" class="page">
+  <div class="panel"><div class="section">REGISTRO DO JOGADOR</div><div class="attr">NÍVEL <b id="pLevel">1</b></div><div class="attr">XP TOTAL <b id="pXp">0</b></div><div class="attr">MISSÕES CONCLUÍDAS <b id="pMissions">0</b></div><div class="attr">PONTOS GASTOS <b id="pSpent">0</b></div><div class="attr">SOMBRAS RECRUTADAS <b id="pShadows">0</b></div></div>
+  <div class="panel"><div class="section">PERSONALIZAÇÃO</div><label class="muted" for="playerName">Nome do jogador</label><input id="playerName" type="text" maxlength="22" placeholder="Digite seu nome"><button class="btn" id="saveName">SALVAR NOME</button></div>
+  <div class="panel"><div class="section">DADOS LOCAIS</div><p class="muted">Seu progresso é salvo neste navegador e aparelho. Limpar os dados do navegador pode apagar seu progresso.</p><button class="btn danger" id="reset">REINICIAR TODO O PROGRESSO</button></div>
+ </section>
+
+ <section id="battle" class="page">
+  <div class="panel"><div class="section">PORTAIS E BATALHAS</div><p class="muted">Enfrente desafios simulados para ganhar experiência e ouro. As batalhas são recursos fictícios do sistema.</p><div id="battleList"></div></div>
+ </section>
+ <section id="economy" class="page">
+  <div class="panel"><div class="section">TESOURO DO JOGADOR</div><div class="stats">
+   <div class="stat"><small>OURO</small><b id="goldValue">0</b></div>
+   <div class="stat"><small>CRISTAIS</small><b id="crystalValue">0</b></div>
+   <div class="stat"><small>ESSÊNCIA</small><b id="essenceValue">0</b></div>
+  </div></div>
+  <div class="panel"><div class="section">LOJA DO SISTEMA</div><div id="shopList"></div></div>
+  <div class="panel"><div class="section">TÍTULOS</div><div id="titleList"></div></div>
+ </section>
+ <section id="records" class="page">
+  <div class="panel"><div class="section">CONQUISTAS</div><div id="achievementList"></div></div>
+  <div class="panel"><div class="section">EVENTOS DO SISTEMA</div><div id="eventList"></div></div>
+ </section>
+ <div class="footer">JIN-WOO SYSTEM • VERSÃO 1.0 • PROGRESSO LOCAL</div>
+</main>
+<button class="menu-trigger" id="menuTrigger" type="button" aria-label="Abrir menu de navegação" aria-controls="navigationDrawer" aria-expanded="false">☰</button>
+<div class="drawer-backdrop" id="drawerBackdrop" aria-hidden="true">
+ <aside class="drawer" id="navigationDrawer" role="dialog" aria-modal="true" aria-label="Menu de navegação">
+  <div class="drawer-head">
+   <div><div class="drawer-brand">JIN-WOO // MENU</div><div class="drawer-subtitle">SISTEMA DE NAVEGAÇÃO</div></div>
+   <button class="drawer-close" id="menuClose" type="button" aria-label="Fechar menu">×</button>
+  </div>
+  <nav class="drawer-nav" aria-label="Páginas do sistema">
+   <button class="active" data-page="home" type="button"><span>⌂</span>INÍCIO</button>
+   <button data-page="quests" type="button"><span>▤</span>MISSÕES</button>
+   <button data-page="attributes" type="button"><span>◇</span>STATUS</button>
+   <button data-page="inventory" type="button"><span>▣</span>ITENS</button>
+   <button data-page="skills" type="button"><span>✧</span>SKILLS</button>
+   <button data-page="shadows" type="button"><span>♟</span>SOMBRAS</button>
+   <button data-page="notifications" type="button"><span>◉</span>AVISOS</button>
+   <button data-page="profile" type="button"><span>♙</span>PERFIL</button>
+   <button data-page="battle" type="button"><span>⚔</span>BATALHAS</button>
+   <button data-page="economy" type="button"><span>◈</span>ECONOMIA</button>
+   <button data-page="records" type="button"><span>♛</span>REGISTROS</button>
+  </nav>
+  <div class="drawer-foot">JIN-WOO SYSTEM • INTERFACE DO JOGADOR</div>
+ </aside>
+</div>
+<div id="updateNotice" role="status" aria-live="polite">
+ <div><b>ATUALIZAÇÃO DISPONÍVEL</b><div style="margin-top:4px;color:var(--muted)">Uma nova versão do Sistema Jin-Woo está pronta.</div></div>
+ <div class="update-actions">
+  <button class="btn" id="updateNow" type="button">ATUALIZAR AGORA</button>
+  <button class="btn secondary" id="updateLater" type="button">DEPOIS</button>
+ </div>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+const today=()=>new Date().toLocaleDateString('en-CA');
+function weekKey(){const d=new Date();const x=new Date(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate()));x.setUTCDate(x.getUTCDate()+4-(x.getUTCDay()||7));const y=new Date(Date.UTC(x.getUTCFullYear(),0,1));return x.getUTCFullYear()+'-W'+String(Math.ceil((((x-y)/86400000)+1)/7)).padStart(2,'0')}
+const dailyDefs=[
+ {id:'d1',name:'Agachamento',desc:'1 série de 50 repetições.',xp:30,coins:10},
+ {id:'d2',name:'Flexão tradicional',desc:'1 série de 50 repetições.',xp:35,coins:10},
+ {id:'d3',name:'Flexão diamante',desc:'1 série de 25 repetições.',xp:35,coins:10},
+ {id:'d4',name:'Prancha',desc:'2 minutos.',xp:30,coins:10},
+ {id:'d5',name:'Abdominal',desc:'1 série de 50 repetições.',xp:25,coins:8},
+ {id:'d6',name:'Polichinelos',desc:'1 série de 50 repetições.',xp:20,coins:8},
+ {id:'d7',name:'Alongamento',desc:'10 minutos.',xp:20,coins:8}
+];
+const weeklyDefs=[
+ {id:'w1',name:'Beber 2 litros de água',desc:'Distribua a hidratação ao longo do dia.',xp:70,coins:25},
+ {id:'w2',name:'Alongar ao acordar',desc:'Faça seu alongamento ao começar o dia.',xp:60,coins:20},
+ {id:'w3',name:'Rezar por pelo menos 5 minutos à noite',desc:'Reserve um momento tranquilo à noite.',xp:70,coins:25},
+ {id:'w4',name:'Missão extra: manter a consistência',desc:'Complete as missões diárias em 5 dias da semana.',xp:100,coins:35}
+];
+const baseItems=[
+ {id:'bracelet',name:'Pulseira do Despertar',type:'Acessório',desc:'Um símbolo do início da jornada.',bonus:{per:1},level:1},
+ {id:'boots',name:'Botas do Passo Leve',type:'Calçado',desc:'Aumenta agilidade virtual em +2.',bonus:{agi:2},level:2},
+ {id:'amulet',name:'Amuleto da Vitalidade',type:'Amuleto',desc:'Aumenta vitalidade virtual em +2.',bonus:{vit:2},level:3},
+ {id:'blade',name:'Lâmina de Éter',type:'Arma',desc:'Aumenta força virtual em +3.',bonus:{str:3},level:5}
+];
+const skillDefs=[
+ {id:'focus',name:'Foco Absoluto',desc:'Conquista por manter uma rotina de estudo.',level:1,cost:0},
+ {id:'dash',name:'Passo Rápido',desc:'Uma habilidade simbólica de agilidade.',level:3,cost:0},
+ {id:'iron',name:'Determinação de Ferro',desc:'Representa consistência e resistência.',level:5,cost:0},
+ {id:'aura',name:'Presença do Monarca',desc:'Uma habilidade lendária de prestígio.',level:10,cost:0}
+];
+const shadowDefs=[
+ {id:'igris',name:'Igris',rank:'Cavaleiro',level:5,desc:'O primeiro grande cavaleiro das sombras.'},
+ {id:'tank',name:'Tank',rank:'Soldado',level:3,desc:'Uma presença robusta para o exército.'},
+ {id:'beru',name:'Beru',rank:'Elite',level:10,desc:'Uma sombra de elite, leal ao Monarca.'},
+ {id:'bellion',name:'Bellion',rank:'General',level:20,desc:'Um comandante lendário.'}
+];
+const fresh={xp:0,coins:0,points:0,spent:0,attrs:{str:10,vit:10,agi:10,int:10,per:10},missions:0,dailyDate:today(),weeklyDate:weekKey(),dailyDone:[],weeklyDone:[],items:['bracelet'],equipped:{},skills:[],shadows:[],logs:[],name:'Jogador',punishmentNext:false,punishmentToday:false,gold:0,crystals:0,essence:0,titles:[],achievements:[],eventClaimed:[],rankTrialPassed:[],weeklyExtras:[],settings:{sound:false}};
+let state;
+try{state={...fresh,...JSON.parse(localStorage.getItem('jinwoo-v2')||'{}')};state.attrs={...fresh.attrs,...state.attrs};state={...fresh,...state};state.settings={...fresh.settings,...(state.settings||{})};state.titles=state.titles||[];state.achievements=state.achievements||[];state.rankTrialPassed=state.rankTrialPassed||[];state.items=state.items||['bracelet'];state.equipped=state.equipped||{};state.gold=state.gold||0;state.crystals=state.crystals||0;state.essence=state.essence||0;}catch(e){state={...fresh}}
+function save(){localStorage.setItem('jinwoo-v2',JSON.stringify(state))}
+function log(msg){state.logs.unshift({msg,time:new Date().toLocaleString('pt-BR')});state.logs=state.logs.slice(0,40);save();showToast(msg)}
+let toastTimer;
+function showToast(msg){$('toast').textContent='[SISTEMA] '+msg;$('toast').classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').classList.remove('show'),2600)}
+function level(){return Math.floor(state.xp/100)+1}
+function addXP(amount){const old=level();state.xp+=amount;const gained=level()-old;if(gained>0){state.points+=gained*5;log('Nível aumentado! Você alcançou o nível '+level()+' e recebeu '+(gained*5)+' pontos de atributo.')} }
+function checkPeriods(){
+ if(state.dailyDate!==today()){state.dailyDate=today();state.dailyDone=[];log('Uma nova lista de missões diárias está disponível.')}
+ if(state.weeklyDate!==weekKey()){state.weeklyDate=weekKey();state.weeklyDone=[];log('As missões semanais foram renovadas.')}
+}
+function questHTML(q,done,kind){return `<div class="task ${done?'done':''}"><div style="flex:1"><label><b>${q.name}</b><small>${q.desc}</small><small style="color:var(--cyan)">RECOMPENSA: +${q.xp} XP • +${q.coins} moedas</small></label></div><button class="btn small ${done?'secondary':''}" ${done?'disabled':''} onclick="claimQuest('${q.id}','${kind}')">${done?'CONCLUÍDA':'CONCLUIR'}</button></div>`}
+window.claimQuest=(id,kind)=>{
+ const defs=kind==='daily'?dailyDefs:weeklyDefs;const q=defs.find(x=>x.id===id);const arr=kind==='daily'?state.dailyDone:state.weeklyDone;
+ if(!q||arr.includes(id))return;
+ arr.push(id);state.missions++;state.coins+=q.coins;addXP(q.xp);save();render();log('Missão concluída: '+q.name+'. Recompensa recebida.');
+};
+function renderQuests(){
+ $('dailyList').innerHTML=dailyDefs.map(q=>questHTML(q,state.dailyDone.includes(q.id),'daily')).join('');
+ $('weeklyList').innerHTML=weeklyDefs.map(q=>questHTML(q,state.weeklyDone.includes(q.id),'weekly')).join('');
+ $('homeDaily').innerHTML=dailyDefs.slice(0,3).map(q=>`<div class="task ${state.dailyDone.includes(q.id)?'done':''}"><span style="color:var(--cyan)">◆</span><label>${q.name}<small>+${q.xp} XP</small></label></div>`).join('')+`<button class="btn secondary" style="width:100%;margin-top:8px" onclick="go('quests')">VER TODAS AS MISSÕES</button>`;
+}
+const attrDefs=[['str','FORÇA'],['vit','VITALIDADE'],['agi','AGILIDADE'],['int','INTELIGÊNCIA'],['per','PERCEPÇÃO']];
+function renderAttrs(){$('points').textContent=state.points;$('attributeList').innerHTML=attrDefs.map(([k,n])=>`<div class="attr"><span>${n}</span><b>${state.attrs[k]}</b><button class="btn small" ${state.points<1?'disabled':''} onclick="spend('${k}')">+1</button></div>`).join('')}
+window.spend=k=>{if(state.points<1)return;state.points--;state.spent++;state.attrs[k]++;save();render();log('Ponto de atributo aplicado em '+k.toUpperCase()+'.')};
+function allEquipment(){return [...baseItems,...shopEquipmentDefs]}
+function findEquipment(id){return allEquipment().find(x=>x.id===id)}
+function rankValue(rank){return ({E:0,D:1,C:2,B:3,A:4,S:5,MONARCH:6})[rank]??99}
+function currentRank(){return rankInfo(level())[0]}
+function renderInventory(){
+ $('inventoryList').innerHTML=allEquipment().map(it=>{const owned=state.items.includes(it.id),unlocked=rankValue(currentRank())>=rankValue(it.rank||'E');return `<div class="item"><span class="tag">${it.type} • RANK ${it.rank||'E'}</span><h3>${it.name}</h3><p>${it.desc}</p><button class="btn small ${state.equipped[it.type]===it.id?'secondary':''}" ${!owned||!unlocked?'disabled':''} onclick="equip('${it.id}')">${!unlocked?'REQUER RANK '+(it.rank||'E'):!owned?'NÃO ADQUIRIDO':state.equipped[it.type]===it.id?'EQUIPADO':'EQUIPAR'}</button></div>`}).join('');
+ const eq=Object.entries(state.equipped);$('equipmentList').innerHTML=eq.length?eq.map(([slot,id])=>{const it=findEquipment(id);return `<div class="attr">${slot.toUpperCase()}<b>${it?it.name:'-'}</b><button class="btn small secondary" onclick="unequip('${slot}')">REMOVER</button></div>`}).join(''):'<div class="empty">Nenhum equipamento equipado.</div>';
+}
+window.equip=id=>{const it=findEquipment(id);if(!it||!state.items.includes(id)||rankValue(currentRank())<rankValue(it.rank||'E'))return;state.equipped[it.type]=id;save();render();log(it.name+' equipado.')};
+window.unequip=slot=>{delete state.equipped[slot];save();render();log('Equipamento removido: '+slot+'.')};
+function renderSkills(){$('skillsList').innerHTML=skillDefs.map(s=>{const unlocked=level()>=s.level||state.skills.includes(s.id),owned=state.skills.includes(s.id);return `<div class="item" style="margin-bottom:9px"><span class="tag">${unlocked?'DESBLOQUEÁVEL':'BLOQUEADA'} • NÍVEL ${s.level}</span><h3>${s.name}</h3><p>${s.desc}</p><button class="btn small ${owned?'secondary':''}" ${!unlocked||owned?'disabled':''} onclick="unlockSkill('${s.id}')">${owned?'DESBLOQUEADA':unlocked?'DESBLOQUEAR':'REQUER NÍVEL '+s.level}</button></div>`}).join('')}
+window.unlockSkill=id=>{const s=skillDefs.find(x=>x.id===id);if(!s||level()<s.level||state.skills.includes(id))return;state.skills.push(id);save();render();log('Nova habilidade desbloqueada: '+s.name+'.')};
+function renderShadows(){$('shadowList').innerHTML=shadowDefs.map(s=>{const owned=state.shadows.includes(s.id),ready=level()>=s.level;return `<div class="item" style="margin-bottom:9px"><span class="tag">${s.rank} • NÍVEL ${s.level}</span><h3>♟ ${s.name}</h3><p>${s.desc}</p><button class="btn small ${owned?'secondary':''}" ${!ready||owned?'disabled':''} onclick="recruit('${s.id}')">${owned?'RECRUTADA':ready?'EXTRAIR SOMBRA':'REQUER NÍVEL '+s.level}</button></div>`}).join('')}
+window.recruit=id=>{const s=shadowDefs.find(x=>x.id===id);if(!s||level()<s.level||state.shadows.includes(id))return;state.shadows.push(id);save();render();log(s.name+' foi adicionada ao Exército das Sombras.')};
+function renderLogs(){$('notificationList').innerHTML=state.logs.length?state.logs.map(x=>`<div class="logline"><time>${x.time}</time>${x.msg}</div>`).join(''):'<div class="empty">Nenhuma notificação por enquanto.</div>'}
+function render(){
+ checkPeriods();const lv=level(),xp=state.xp%100;
+ $('level').textContent='NÍVEL '+lv;$('xpText').textContent=xp+' / 100 XP';$('xpFill').style.width=xp+'%';
+ $('rank').textContent='CLASSE: '+(lv>=20?'MONARCA':lv>=10?'ELITE':lv>=5?'CAÇADOR':lv>=3?'AVANÇANDO':'INICIANTE');
+ const bonus={str:0,vit:0,agi:0,int:0,per:0};Object.values(state.equipped).forEach(id=>{const it=findEquipment(id);if(it)Object.entries(it.bonus).forEach(([k,v])=>bonus[k]+=v)});
+ $('hp').textContent=(100+state.attrs.vit*2+bonus.vit*2)+' / '+(100+state.attrs.vit*2+bonus.vit*2);$('mp').textContent=(50+state.attrs.int*2)+' / '+(50+state.attrs.int*2);$('coins').textContent=state.coins;
+ $('sumMissions').textContent=state.missions+' missões';$('sumPoints').textContent=state.points+' disponíveis';$('sumShadows').textContent=state.shadows.length+' recrutadas';
+ $('pLevel').textContent=lv;$('pXp').textContent=state.xp;$('pMissions').textContent=state.missions;$('pSpent').textContent=state.spent;$('pShadows').textContent=state.shadows.length;
+ $('playerName').value=state.name||'Jogador';renderQuests();renderAttrs();renderInventory();renderSkills();renderShadows();renderLogs();save();
+}
+function closeNavigationMenu(){const backdrop=$('drawerBackdrop');if(!backdrop)return;backdrop.classList.remove('open');backdrop.setAttribute('aria-hidden','true');$('menuTrigger').setAttribute('aria-expanded','false')}
+function openNavigationMenu(){const backdrop=$('drawerBackdrop');if(!backdrop)return;backdrop.classList.add('open');backdrop.setAttribute('aria-hidden','false');$('menuTrigger').setAttribute('aria-expanded','true')}
+function go(id){document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id===id));document.querySelectorAll('.drawer-nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===id));closeNavigationMenu();window.scrollTo({top:0,behavior:'smooth'})}
+$('menuTrigger').addEventListener('click',openNavigationMenu);
+$('menuClose').addEventListener('click',closeNavigationMenu);
+$('drawerBackdrop').addEventListener('click',e=>{if(e.target===$('drawerBackdrop'))closeNavigationMenu()});
+document.querySelectorAll('.drawer-nav button').forEach(b=>b.addEventListener('click',()=>go(b.dataset.page)));
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeNavigationMenu()});
+$('saveName').addEventListener('click',()=>{state.name=$('playerName').value.trim()||'Jogador';save();log('Identificação do jogador atualizada: '+state.name+'.')});
+$('reset').addEventListener('click',()=>{if(confirm('Tem certeza? Todo o progresso local será apagado.')){localStorage.removeItem('jinwoo-v2');location.reload()}});
+// ===== EXPANSÃO V1.0: progressão MONARCH, treino e sistemas =====
+function xpNeed(lv){return Math.floor(100+20*Math.pow(Math.max(0,lv-1),1.6));}
+function xpTotalForLevel(lv){let t=0;for(let i=1;i<lv;i++)t+=xpNeed(i);return t;}
+function level(){let lv=1;while(state.xp>=xpTotalForLevel(lv+1)&&lv<10000)lv++;return lv;}
+function rankInfo(lv){const passed=state.rankTrialPassed||[];if(lv>=151&&passed.includes('MONARCH'))return ['MONARCH','Monarca'];if(lv>=101&&passed.includes('S'))return ['S','Caçador Supremo'];if(lv>=71&&passed.includes('A'))return ['A','Elite Superior'];if(lv>=46&&passed.includes('B'))return ['B','Elite'];if(lv>=26&&passed.includes('C'))return ['C','Combatente'];if(lv>=11&&passed.includes('D'))return ['D','Aprendiz'];return ['E','Despertar'];}
+function addXP(amount){const old=level();state.xp+=amount;const gained=level()-old;if(gained>0){state.points+=gained;log('Nível aumentado! Nível '+level()+'. +'+gained+' ponto(s) de atributo.');for(let n=old+1;n<=level();n++){if(n%5===0){state.gold=(state.gold||0)+50;log('Recompensa de marco: +50 ouro pelo nível '+n+'.');}if(n%10===0)log('Novo marco de habilidade disponível no nível '+n+'.');}}}
+function dailyForToday(){const punishment=!!state.punishmentToday;const amounts=punishment?[70,70,50,'4 minutos',70,70,'10 minutos']:[50,50,25,'2 minutos',50,50,'10 minutos'];return dailyDefs.map((q,i)=>({...q,desc:punishment?amounts[i]+(i===3||i===6?'':' repetições.') : q.desc, name:q.name, xp:punishment?Math.round(q.xp*1.5):q.xp, coins:punishment?q.coins+3:q.coins}));}
+function checkPeriods(){const now=today();if(state.dailyDate!==now){const missed=state.dailyDone.length<dailyDefs.length;const wasPunishment=!!state.punishmentToday;state.dailyDate=now;state.dailyDone=[];const applyingPunishment=!!state.punishmentNext;state.punishmentToday=applyingPunishment;state.punishmentNext=!wasPunishment&&!applyingPunishment&&missed; if(state.punishmentToday)log('Ciclo de punição iniciado. Complete as missões especiais de hoje.');else if(missed&&!wasPunishment)log('Missões diárias incompletas. A punição será aplicada no próximo ciclo.');else log('Novo ciclo diário iniciado.');}
+ if(state.weeklyDate!==weekKey()){state.weeklyDate=weekKey();state.weeklyDone=[];state.weeklyExtras=[];log('As missões semanais foram renovadas.');}}
+function questHTML(q,done,kind){return `<div class="task ${done?'done':''}"><div style="flex:1"><label><b>${q.name}</b><small>${q.desc}</small><small style="color:var(--cyan)">RECOMPENSA: +${q.xp} XP • +${q.coins} ouro</small></label></div><button class="btn small ${done?'secondary':''}" ${done?'disabled':''} onclick="claimQuest('${q.id}','${kind}')">${done?'CONCLUÍDA':'CONCLUIR'}</button></div>`}
+window.claimQuest=(id,kind)=>{const defs=kind==='daily'?dailyForToday():weeklyDefs;const q=defs.find(x=>x.id===id);const arr=kind==='daily'?state.dailyDone:state.weeklyDone;if(!q||arr.includes(id))return;arr.push(id);state.missions++;state.coins=(state.coins||0)+q.coins;state.gold=(state.gold||0)+q.coins;addXP(q.xp);save();render();log('Missão concluída: '+q.name+'. Recompensa recebida.');};
+function renderQuests(){const ds=dailyForToday();$('dailyList').innerHTML=ds.map(q=>questHTML(q,state.dailyDone.includes(q.id),'daily')).join('');$('weeklyList').innerHTML=weeklyDefs.map(q=>questHTML(q,state.weeklyDone.includes(q.id),'weekly')).join('');$('homeDaily').innerHTML=ds.map(q=>`<div class="task ${state.dailyDone.includes(q.id)?'done':''}"><span style="color:var(--cyan)">◆</span><label>${q.name}<small>${q.desc} • +${q.xp} XP</small></label></div>`).join('')+`<button class="btn secondary" style="width:100%;margin-top:8px" onclick="go('quests')">VER TODAS AS MISSÕES</button>`;const msg=state.punishmentToday?'PUNIÇÃO ATIVA: este é o ciclo especial. Depois dele o sistema volta ao normal.':'Complete todas as missões antes da meia-noite para evitar punição no próximo ciclo.';$('punishmentNotice').style.display=state.punishmentToday?'block':'none';$('punishmentNotice').textContent=msg;}
+function renderAdvanced(){const lv=level(),ri=rankInfo(lv);const attrs=[['str','FORÇA'],['vit','VITALIDADE'],['agi','AGILIDADE'],['per','RESISTÊNCIA'],['int','INTELIGÊNCIA']];const bonus={str:0,vit:0,agi:0,int:0,per:0};Object.values(state.equipped||{}).forEach(id=>{const it=findEquipment(id);if(it)Object.entries(it.bonus).forEach(([k,v])=>bonus[k]=(bonus[k]||0)+v)});$('advancedStats').innerHTML=attrs.map(([k,n])=>`<div class="attr"><span>${n}</span><b>${(state.attrs[k]||0)+bonus[k]} <small class="muted">(${state.attrs[k]||0} base + ${bonus[k]} item)</small></b></div>`).join('');$('progressionInfo').innerHTML=`<div class="level">NÍVEL ${lv}</div><div class="rank">RANK ${ri[0]} • ${ri[1]}</div><p class="muted">Dificuldade MONARCH • Nível máximo ilimitado • Próximo nível: ${xpNeed(lv)} XP</p><div class="notice">1 ponto de atributo por nível; recompensa especial a cada 5 níveis; habilidade/marco a cada 10 níveis. Promoções exigem nível e teste físico.</div>`;}
+const shopDefs=[
+ {id:'crystal',kind:'resource',name:'Pacote de 3 Cristais',cost:{gold:100},reward:'3 cristais',desc:'Moeda rara para aquisições especiais.'},
+ {id:'essence',kind:'resource',name:'Essência das Sombras',cost:{gold:150},reward:'1 essência',desc:'Recurso raro usado em equipamentos avançados.'},
+ {id:'titlexp',kind:'title',name:'Título: Incansável',cost:{gold:250},reward:'Título Incansável',desc:'+5% XP (bônus simbólico permanente).'},
+ ...shopEquipmentDefs.map(x=>({id:x.id,kind:'equipment',name:x.name,desc:x.desc,rank:x.rank,cost:x.cost,bonus:x.bonus}))
+];
+const shopEquipmentDefs=[
+ {id:'ring_hunt',name:'Anel do Caçador Abissal',type:'Acessório',rank:'D',desc:'Um anel forjado com fragmentos de portal. Bônus: +5 FOR e +5 AGI.',bonus:{str:5,agi:5},cost:{gold:3000,crystals:10}},
+ {id:'boots_tempest',name:'Botas da Tempestade',type:'Calçado',rank:'C',desc:'Passos que parecem cortar o vento. Bônus: +10 AGI e +5 PER.',bonus:{agi:10,per:5},cost:{gold:8000,crystals:20,essence:5}},
+ {id:'blade_abyss',name:'Lâmina do Abismo',type:'Arma',rank:'B',desc:'Uma arma que absorve a energia dos portais. Bônus: +15 FOR e +10 INT.',bonus:{str:15,int:10},cost:{gold:15000,crystals:40,essence:15}},
+ {id:'mantle_monarch',name:'Manto do Monarca',type:'Armadura',rank:'A',desc:'Um manto tecido com energia sombria. Bônus: +20 VIT e +15 PER.',bonus:{vit:20,per:15},cost:{gold:30000,crystals:80,essence:30}},
+ {id:'crown_shadow',name:'Coroa das Sombras',type:'Elmo',rank:'S',desc:'Um símbolo de autoridade sobre as sombras. Bônus: +25 INT e +20 FOR.',bonus:{int:25,str:20},cost:{gold:60000,crystals:150,essence:60}},
+ {id:'heart_monarch',name:'Coração do Monarca',type:'Relíquia',rank:'MONARCH',desc:'Uma relíquia quase impossível de obter. Bônus: +50 em todos os atributos.',bonus:{str:50,vit:50,agi:50,int:50,per:50},cost:{gold:120000,crystals:300,essence:150}}
+];
+const titleDefs=[{id:'awake',name:'O Desperto',desc:'+2% XP',req:1},{id:'tireless',name:'Incansável',desc:'+5% XP',req:10},{id:'commander',name:'Comandante das Sombras',desc:'+5% poder das sombras',req:3}];
+const achievementDefs=[{id:'first',name:'Primeiro Passo',desc:'Conclua sua primeira missão.',test:()=>state.missions>=1,reward:40},{id:'ten',name:'Persistente',desc:'Conclua 10 missões.',test:()=>state.missions>=10,reward:100},{id:'shadow',name:'Monarca das Sombras',desc:'Recrute sua primeira sombra.',test:()=>state.shadows.length>=1,reward:100},{id:'level10',name:'Despertar do Poder',desc:'Alcance o nível 10.',test:()=>level()>=10,reward:150}];
+function renderGameSystems(){
+ $('goldValue').textContent=state.gold||0;$('crystalValue').textContent=state.crystals||0;$('essenceValue').textContent=state.essence||0;
+ $('shopList').innerHTML=shopDefs.map(x=>{
+  const owned=x.kind==='equipment'&&state.items.includes(x.id);
+  const rankOk=!x.rank||rankValue(currentRank())>=rankValue(x.rank);
+  const costs=Object.entries(x.cost).map(([k,v])=>`${v} ${k==='gold'?'ouro':k==='crystals'?'cristais':'essência'}`).join(' + ');
+  const canAfford=Object.entries(x.cost).every(([k,v])=>(state[k]||0)>=v);
+  const status=owned?'ADQUIRIDO':!rankOk?'REQUER RANK '+x.rank:!canAfford?'RECURSOS INSUFICIENTES':'DISPONÍVEL PARA COMPRA';
+  return `<div class="item" style="margin-bottom:8px"><span class="tag">${x.kind==='equipment'?'EQUIPAMENTO • RANK '+x.rank:x.kind==='title'?'TÍTULO':'RECURSO'}</span><h3>${x.name}</h3><p>${x.desc}</p>${x.bonus?`<p style="color:var(--cyan)">BÔNUS: ${Object.entries(x.bonus).map(([k,v])=>'+'+v+' '+({str:'FOR',vit:'VIT',agi:'AGI',int:'INT',per:'PER'}[k])).join(' • ')}</p>`:''}<p style="color:var(--gold)">CUSTO: ${costs}</p><small class="muted">${status}</small><br><button class="btn small" style="margin-top:8px" ${owned||!rankOk||!canAfford?'disabled':''} onclick="buyItem('${x.id}')">${owned?'ADQUIRIDO':!rankOk?'BLOQUEADO • RANK '+x.rank:'COMPRAR'}</button></div>`;
+ }).join('');
+ $('titleList').innerHTML=titleDefs.map(t=>`<div class="attr"><span>${t.name}<small class="muted">${t.desc}</small></span><b>${(state.titles||[]).includes(t.id)?'ATIVO':level()>=t.req?'DISPONÍVEL':'NÍVEL '+t.req}</b></div>`).join('');
+ $('achievementList').innerHTML=achievementDefs.map(a=>{const done=(state.achievements||[]).includes(a.id);return `<div class="task"><label><b>${a.name}</b><small>${a.desc} • +${a.reward} XP</small></label><button class="btn small" ${done||!a.test()?'disabled':''} onclick="claimAchievement('${a.id}')">${done?'RECEBIDA':a.test()?'REIVINDICAR':'BLOQUEADA'}</button></div>`}).join('');
+ $('eventList').innerHTML=`<div class="item"><span class="tag">EVENTO ROTATIVO</span><h3>Caçada aos Portais</h3><p>Complete suas missões diárias para ganhar progresso no evento. Recompensa simbólica: ouro extra.</p><button class="btn small" onclick="claimEvent()" ${(state.eventClaimed||[]).includes(today())?'disabled':''}>${(state.eventClaimed||[]).includes(today())?'RECOMPENSA COLETADA':'COLETAR RECOMPENSA'}</button></div><div class="item" style="margin-top:8px"><span class="tag">EVENTO ALEATÓRIO</span><h3>Alerta do Sistema</h3><p>Uma oportunidade surpresa pode surgir ao abrir esta área.</p><button class="btn small secondary" onclick="randomEvent()">VERIFICAR EVENTO</button></div>`;
+ $('battleList').innerHTML=[['Portal de Rank E','Iniciante','Recompensa: 30 XP'],['Arena de Caçadores','Intermediário','Recompensa: 60 XP'],['Chefe: Guardião do Portal','Avançado','Recompensa: 100 XP']].map((b,i)=>`<div class="item" style="margin-bottom:8px"><span class="tag">${b[1]}</span><h3>${b[0]}</h3><p>${b[2]} • batalha simulada</p><button class="btn small" onclick="fight(${i})">INICIAR BATALHA</button></div>`).join('');
+ const req=[['D',11],['C',26],['B',46],['A',71],['S',101],['MONARCH',151]];const next=req.find(([k,n])=>level()>=n&&!(state.rankTrialPassed||[]).includes(k))||req.find(([k,n])=>level()<n);$('rankTrial').innerHTML=next?`<p class="muted">Próxima promoção: ${next[0]} (nível ${next[1]}). A promoção só é liberada após o teste físico seguro.</p><button class="btn small" ${level()<next[1]?'disabled':''} onclick="rankTrial('${next[0]}')">${level()<next[1]?'BLOQUEADO':'REALIZAR TESTE'}</button>`:`<p class="notice">Rank MONARCH alcançado. O topo da progressão foi desbloqueado.</p>`;
+}
+window.buyItem=id=>{
+ const x=shopDefs.find(z=>z.id===id);if(!x)return;
+ if(x.kind==='equipment'&&state.items.includes(id)){showToast('Este equipamento já pertence ao seu inventário.');return;}
+ if(x.rank&&rankValue(currentRank())<rankValue(x.rank)){showToast('Rank insuficiente. Requer rank '+x.rank+'.');return;}
+ if(x.kind==='title'&&state.titles.includes('tireless')){showToast('Você já possui este título.');return;}
+ const missing=Object.entries(x.cost).filter(([k,v])=>(state[k]||0)<v);
+ if(missing.length){showToast('Recursos insuficientes para esta aquisição.');return;}
+ Object.entries(x.cost).forEach(([k,v])=>state[k]=(state[k]||0)-v);
+ if(id==='crystal')state.crystals=(state.crystals||0)+3;
+ if(id==='essence')state.essence=(state.essence||0)+1;
+ if(x.kind==='title')state.titles.push('tireless');
+ if(x.kind==='equipment')state.items=[...new Set([...(state.items||[]),id])];
+ save();render();log('Aquisição realizada: '+x.name+'.');
+};
+window.claimAchievement=id=>{const a=achievementDefs.find(x=>x.id===id);if(!a||state.achievements.includes(id)||!a.test())return;state.achievements.push(id);addXP(a.reward);state.gold=(state.gold||0)+50;save();render();log('Conquista desbloqueada: '+a.name+'.');};
+window.claimEvent=()=>{if((state.eventClaimed||[]).includes(today()))return;if(state.dailyDone.length<dailyDefs.length){showToast('Complete as missões diárias primeiro.');return;}state.eventClaimed.push(today());state.gold=(state.gold||0)+75;addXP(50);save();render();log('Evento concluído: +75 ouro e +50 XP.');};
+window.randomEvent=()=>{const rewards=[['+25 XP',()=>addXP(25)],['+30 ouro',()=>state.gold=(state.gold||0)+30],['+1 cristal',()=>state.crystals=(state.crystals||0)+1]];const x=rewards[Math.floor(Math.random()*rewards.length)];x[1]();save();render();log('Evento aleatório: recompensa '+x[0]+'.');};
+window.fight=i=>{const lv=level();const need=[1,5,10][i];if(lv<need){showToast('Nível mínimo necessário: '+need);return;}const reward=[30,60,100][i];addXP(reward);state.gold=(state.gold||0)+[15,30,50][i];save();render();log('Batalha simulada vencida. +'+reward+' XP.');};
+window.rankTrial=r=>{const req={D:11,C:26,B:46,A:71,S:101,MONARCH:151};if(level()<(req[r]||99999))return;const ok=confirm('Teste de promoção: faça apenas um teste físico que você consiga executar com boa técnica e sem dor. Pare se sentir desconforto. Você concluiu o teste com segurança?');if(ok){state.rankTrialPassed.push(r);state.gold=(state.gold||0)+100;save();render();log('Teste de promoção '+r+' aprovado. Recompensa: 100 ouro.');}else showToast('Teste não aprovado. Você poderá tentar novamente.');};
+function updateTimer(){const n=new Date(),end=new Date(n);end.setHours(24,0,0,0);const ms=end-n,h=Math.floor(ms/3600000),m=Math.floor(ms%3600000/60000),sec=Math.floor(ms%60000/1000);const t=`Tempo até a virada: ${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;if($('dailyTimer'))$('dailyTimer').textContent=t;if($('questTimer'))$('questTimer').textContent=t;}
+const originalRender=render;
+function render(){checkPeriods();const lv=level(),base=xpTotalForLevel(lv),need=xpNeed(lv),within=state.xp-base,ri=rankInfo(lv);$('level').textContent='NÍVEL '+lv;$('xpText').textContent=within+' / '+need+' XP';$('xpFill').style.width=Math.min(100,within/need*100)+'%';$('rank').textContent='RANK '+ri[0]+' • '+ri[1];const bonus={str:0,vit:0,agi:0,int:0,per:0};Object.values(state.equipped||{}).forEach(id=>{const it=findEquipment(id);if(it)Object.entries(it.bonus).forEach(([k,v])=>bonus[k]+=v)});$('hp').textContent=(100+state.attrs.vit*2+bonus.vit*2)+' / '+(100+state.attrs.vit*2+bonus.vit*2);$('mp').textContent=(50+state.attrs.int*2)+' / '+(50+state.attrs.int*2);$('coins').textContent=state.gold||state.coins||0;$('sumMissions').textContent=state.missions+' missões';$('sumPoints').textContent=state.points+' disponíveis';$('sumShadows').textContent=state.shadows.length+' recrutadas';$('pLevel').textContent=lv;$('pXp').textContent=state.xp;$('pMissions').textContent=state.missions;$('pSpent').textContent=state.spent;$('pShadows').textContent=state.shadows.length;$('playerName').value=state.name||'Jogador';renderQuests();renderAttrs();renderInventory();renderSkills();renderShadows();renderLogs();renderAdvanced();renderGameSystems();save();updateTimer();}
+setInterval(()=>{checkPeriods();updateTimer();},1000);
+
+render();if(!state.logs.length)log('Jogador detectado. Sistema Jin-Woo iniciado. Complete missões para evoluir.');
+</script>
+ <script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", async () => {
+    const notice = document.getElementById("updateNotice");
+    const updateButton = document.getElementById("updateNow");
+    const laterButton = document.getElementById("updateLater");
+    let waitingWorker = null;
+    let refreshing = false;
+
+    const showUpdate = worker => {
+      waitingWorker = worker;
+      if (notice) notice.classList.add("show");
+    };
+
+    try {
+      const registration = await navigator.serviceWorker.register("./service-worker.js");
+      console.log("JIN-WOO: sistema offline ativado");
+
+      if (registration.waiting && navigator.serviceWorker.controller) {
+        showUpdate(registration.waiting);
+      }
+
+      registration.addEventListener("updatefound", () => {
+        const newWorker = registration.installing;
+        if (!newWorker) return;
+        newWorker.addEventListener("statechange", () => {
+          if (newWorker.state === "installed" && navigator.serviceWorker.controller) {
+            showUpdate(newWorker);
+          }
+        });
+      });
+
+      if (updateButton) {
+        updateButton.addEventListener("click", () => {
+          if (waitingWorker) waitingWorker.postMessage({ type: "SKIP_WAITING" });
+        });
+      }
+
+      if (laterButton) {
+        laterButton.addEventListener("click", () => {
+          if (notice) notice.classList.remove("show");
+        });
+      }
+
+      navigator.serviceWorker.addEventListener("controllerchange", () => {
+        if (refreshing) return;
+        refreshing = true;
+        window.location.reload();
+      });
+
+      registration.update();
+    } catch (error) {
+      console.error("Erro no Service Worker:", error);
+    }
+  });
+}
+ </script>
+</body>
+</html>
